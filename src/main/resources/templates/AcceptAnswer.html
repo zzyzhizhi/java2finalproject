@@ -16,7 +16,8 @@
 <button id="chart1Btn">有回答的问题百分比</button>
 <button id="chart2Btn">解决时间间隔分布</button>
 <button id="chart3Btn">含有 non-accepted answer 的 upvote 数高于 accepted
-    answer 的问题的百分比</button>
+    answer 的问题的百分比
+</button>
 
 
 <body style="text-align: center">
@@ -30,7 +31,7 @@
     myChart.style.display = 'none';
     myBarChart.style.display = 'none';
     myBarChart1.style.display = 'none';
-    chart1Btn.addEventListener('click', function() {
+    chart1Btn.addEventListener('click', function () {
         // 显示myChart，隐藏其他元素
         myChart.style.display = 'block';
         myBarChart.style.display = 'none';
@@ -38,7 +39,7 @@
     });
 
     // 为按钮2添加点击事件监听器
-    chart2Btn.addEventListener('click', function() {
+    chart2Btn.addEventListener('click', function () {
         // 显示myBarChart，隐藏其他元素
         myChart.style.display = 'none';
         myBarChart.style.display = 'block';
@@ -46,7 +47,7 @@
     });
 
     // 为按钮3添加点击事件监听器
-    chart3Btn.addEventListener('click', function() {
+    chart3Btn.addEventListener('click', function () {
         // 显示两行文字，隐藏其他元素
         myChart.style.display = 'none';
         myBarChart.style.display = 'none';
@@ -54,13 +55,13 @@
     });
 
     $.ajax({
-        url:"http://localhost:9090/api/data",
-        type:"GET",
-        dataType:"json",
+        url: "http://localhost:9090/api/data",
+        type: "GET",
+        dataType: "json",
         headers: {
             "Accept": "application/json"
         },
-        success:function (Data){
+        success: function (Data) {
             console.log(Data);
             const ctx = document.getElementById('myChart').getContext('2d');
             const myChart = new Chart(ctx, {
@@ -154,7 +155,6 @@
         }
 
     })
-
 
 
 </script>

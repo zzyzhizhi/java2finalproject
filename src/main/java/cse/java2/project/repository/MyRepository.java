@@ -53,7 +53,7 @@ public interface MyRepository extends JpaRepository<Question, Long> {
       "JOIN answer a1 ON qa1.answers_id = a1.id AND a1.is_accepted = true\n" +
       "JOIN question_answers qa2 ON q.id = qa2.question_id\n" +
       "JOIN answer a2 ON qa2.answers_id = a2.id AND a2.is_accepted = false\n" +
-      "WHERE q.is_answered = true",nativeQuery = true)
+      "WHERE q.is_answered = true", nativeQuery = true)
   Double findPercentageOfQuestionsWithNonAcceptedAnswersWithMoreUpvotes();
 
   @Query(value = "SELECT t2.tags\n" +
@@ -61,7 +61,7 @@ public interface MyRepository extends JpaRepository<Question, Long> {
       "JOIN question_tags t2 ON t1.question_id = t2.question_id\n" +
       "WHERE t1.tags = 'java' AND t2.tags<> 'java'\n" +
       "GROUP BY t2.tags\n" +
-      "ORDER BY count(*) DESC",nativeQuery = true)
+      "ORDER BY count(*) DESC", nativeQuery = true)
   List<String> findTopTagsWithJava();
 
   @Query(value = "SELECT count(*)\n" +
@@ -69,58 +69,57 @@ public interface MyRepository extends JpaRepository<Question, Long> {
       "      JOIN question_tags t2 ON t1.question_id = t2.question_id\n" +
       "      WHERE t1.tags = 'java' AND t2.tags<> 'java'\n" +
       "      GROUP BY t2.tags\n" +
-      "      ORDER BY count(*) DESC",nativeQuery = true)
+      "      ORDER BY count(*) DESC", nativeQuery = true)
   List<Long> findTopTagsWithJavaCount();
-
 
 
   @Query(value = "SELECT t2.tags\n" +
       "FROM question t1\n" +
       "JOIN question_tags t2 ON t1.id = t2.question_id\n" +
-      "WHERE t1.up_vote_count = (SELECT MAX(up_vote_count) FROM question)\n",nativeQuery = true)
+      "WHERE t1.up_vote_count = (SELECT MAX(up_vote_count) FROM question)\n", nativeQuery = true)
   List<String> findMostVoteCountTags();
 
   @Query(value = "SELECT t2.tags\n" +
       "FROM question t1\n" +
       "JOIN question_tags t2 ON t1.id = t2.question_id\n" +
-      "WHERE t1.view_count = (SELECT MAX(view_count) FROM question)\n",nativeQuery = true)
+      "WHERE t1.view_count = (SELECT MAX(view_count) FROM question)\n", nativeQuery = true)
   List<String> findMostViewCountTags();
 
   @Query(value = "SELECT COUNT(DISTINCT owner.user_id)\n" +
       "FROM question\n" +
-      "JOIN owner ON question.owner_id = owner.id;",nativeQuery = true)
+      "JOIN owner ON question.owner_id = owner.id;", nativeQuery = true)
   Long getdistinctPostQuestionUser();
 
   @Query(value = "SELECT COUNT(DISTINCT owner.user_id)\n" +
       "FROM comment\n" +
-      "JOIN owner ON comment.owner_id = owner.id;",nativeQuery = true)
+      "JOIN owner ON comment.owner_id = owner.id;", nativeQuery = true)
   Long getdistinctCommentUser();
 
   @Query(value = "SELECT COUNT(DISTINCT owner.user_id)\n" +
       "FROM answer\n" +
-      "JOIN owner ON answer.owner_id = owner.id;",nativeQuery = true)
+      "JOIN owner ON answer.owner_id = owner.id;", nativeQuery = true)
   Long getdistinctAnswerUser();
 
   @Query(value = "SELECT owner.user_id, COUNT(DISTINCT question.owner_id)\n" +
       "FROM question\n" +
       "JOIN owner ON question.owner_id = owner.id\n" +
-      "GROUP BY owner.user_id;",nativeQuery = true)
+      "GROUP BY owner.user_id;", nativeQuery = true)
   List<Long[]> getuserInQuestion();
 
   @Query(value = "SELECT owner.user_id, COUNT(DISTINCT comment.owner_id)\n" +
       "FROM comment\n" +
       "JOIN owner ON comment.owner_id = owner.id\n" +
-      "GROUP BY owner.user_id;",nativeQuery = true)
+      "GROUP BY owner.user_id;", nativeQuery = true)
   List<Long[]> getuserInComment();
 
   @Query(value = "SELECT owner.user_id, COUNT(DISTINCT answer.owner_id)\n" +
       "FROM answer\n" +
       "JOIN owner ON answer.owner_id = owner.id\n" +
-      "GROUP BY owner.user_id;",nativeQuery = true)
+      "GROUP BY owner.user_id;", nativeQuery = true)
   List<Long[]> getuserInAnswer();
 
   @Query(value = "select question.body\n" +
-      "from question",nativeQuery = true)
+      "from question", nativeQuery = true)
   List<String> getBody();
 }
 

@@ -2,8 +2,9 @@ package cse.java2.project.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.List;
 import javax.persistence.*;
+import java.util.List;
+
 @Entity
 @Table(name = "answer")
 @JsonIgnoreProperties(ignoreUnknown = true)

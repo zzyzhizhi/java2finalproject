@@ -29,7 +29,7 @@
     myChart.style.display = 'none';
     myBarChart.style.display = 'none';
     myBarChart1.style.display = 'none';
-    chart1Btn.addEventListener('click', function() {
+    chart1Btn.addEventListener('click', function () {
         // 显示myChart，隐藏其他元素
         myChart.style.display = 'block';
         myBarChart.style.display = 'none';
@@ -37,7 +37,7 @@
     });
 
     // 为按钮2添加点击事件监听器
-    chart2Btn.addEventListener('click', function() {
+    chart2Btn.addEventListener('click', function () {
         // 显示myBarChart，隐藏其他元素
         myChart.style.display = 'none';
         myBarChart.style.display = 'block';
@@ -45,7 +45,7 @@
     });
 
     // 为按钮3添加点击事件监听器
-    chart3Btn.addEventListener('click', function() {
+    chart3Btn.addEventListener('click', function () {
         // 显示两行文字，隐藏其他元素
         myChart.style.display = 'none';
         myBarChart.style.display = 'none';
@@ -53,13 +53,13 @@
     });
 
     $.ajax({
-        url:"http://localhost:9090/api/data",
-        type:"GET",
-        dataType:"json",
+        url: "http://localhost:9090/api/data",
+        type: "GET",
+        dataType: "json",
         headers: {
             "Accept": "application/json"
         },
-        success:function (Data){
+        success: function (Data) {
             console.log(Data);
             let tagsCombine = "";
             for (let i = 0; i < Data.mostVoteCountTags.length; i++) {
@@ -96,7 +96,7 @@
                     labels: [data1[0], data1[1], data1[2], data1[3], data1[4]],
                     datasets: [{
                         label: 'Count',
-                        data: [data[0],data[1],data[2],data[3],data[4]],
+                        data: [data[0], data[1], data[2], data[3], data[4]],
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
@@ -138,7 +138,6 @@
         }
 
     })
-
 
 
 </script>
