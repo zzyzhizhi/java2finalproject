@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Java2 Project Demo</title>
+    <!--  Import echarts lib by CDN, you can also import from local files  -->
+    <script src='https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2/dist/echarts-wordcloud.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+
+    <!--  Import the data files  -->
+    <script src='../js/myChart.js'></script>
+</head>
+<button id="chart1Btn">没回答的问题占比</button>
+<button id="chart2Btn">答案数量比例</button>
+<button id="chart3Btn">平均值和最大值</button>
+
+
+<body style="text-align: center">
+<canvas id="myChart"></canvas>
+<canvas id="myBarChart"></canvas>
+<canvas id="myBarChart1"></canvas>
+
+</body>
+
+<script>
+    myChart.style.display = 'none';
+    myBarChart.style.display = 'none';
+    myBarChart1.style.display = 'none';
+    chart1Btn.addEventListener('click', function() {
+        // 显示myChart，隐藏其他元素
+        myChart.style.display = 'block';
+        myBarChart.style.display = 'none';
+        myBarChart1.style.display = 'none';
+    });
+
+    // 为按钮2添加点击事件监听器
+    chart2Btn.addEventListener('click', function() {
+        // 显示myBarChart，隐藏其他元素
+        myChart.style.display = 'none';
+        myBarChart.style.display = 'block';
+        myBarChart1.style.display = 'none';
+    });
+
+    // 为按钮3添加点击事件监听器
+    chart3Btn.addEventListener('click', function() {
+        // 显示两行文字，隐藏其他元素
+        myChart.style.display = 'none';
+        myBarChart.style.display = 'none';
+        myBarChart1.style.display = 'block';
+    });
+
+    $.ajax({
+    url:"http://localhost:9090/api/data",
+    type:"GET",
+    dataType:"json",
+    headers: {
+        "Accept": "application/json"
+    },
+    success:function (Data){
+        console.log(Data);
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+
+            type: 'pie',
+            data: {
+                labels: ['Unanswered', 'Answered'],
+                datasets: [{
+                    data: [Data.unansweredQuestionRatio, 1 - Data.unansweredQuestionRatio],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        const data = Data.answerCount;
+        const data2 = Data.questionCountToAnswerCount;
+// 计算每个柱状的高度
+        const counts = [0, 0, 0, 0, 0, 0];
+        for (let i = 0; i < data.length; i++) {
+            if (data[i] >= 0 && data[i] <= 10) {
+                counts[0]+=data2[i];
+            } else if (data[i] > 10 && data[i] <= 20) {
+                counts[1]+=data2[i];
+            } else if (data[i] > 20 && data[i] <= 30) {
+                counts[2]+=data2[i];
+            } else if (data[i] > 30 && data[i] <= 40) {
+                counts[3]+=data2[i];
+            } else if (data[i] > 40 && data[i] <= 50) {
+                counts[4]+=data2[i];
+            } else if (data[i] > 50) {
+                counts[5]+=data2[i];
+            }
+        }
+        var ctx1 = document.getElementById('myBarChart').getContext('2d');
+        var myBarChart = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['0-10', '11-20', '21-30', '31-40', '41-50', '>50'],
+                datasets: [{
+                    label: 'Count',
+                    data: counts,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+        var ctx2 = document.getElementById('myBarChart1').getContext('2d');
+        var myBarChart1 = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Average', 'Max'],
+                datasets: [{
+                    label: 'Count',
+                    data: [Data.averageAnswerCount,Data.maxAnswerCount],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+
+        // 获取页面元素
+        // var chart1Btn = document.getElementById('chart1Btn');
+        // var chart2Btn = document.getElementById('chart2Btn');
+        // var chart3Btn = document.getElementById('chart3Btn');
+        // var myChart = document.getElementById('myChart');
+        // var myBarChart = document.getElementById('myBarChart');
+        // var myText1 = document.getElementById('myText1');
+        // var myText2 = document.getElementById('myText2');
+
+// 为按钮1添加点击事件监听器
+
+
+    }
+
+})
+
+
+
+</script>
+
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Java2 Project Demo</title>
+    <!--  Import echarts lib by CDN, you can also import from local files  -->
+    <script src='https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts-wordcloud@2/dist/echarts-wordcloud.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+
+    <!--  Import the data files  -->
+    <script src='../js/myChart.js'></script>
+</head>
+<button id="chart1Btn">distinctUsers</button>
+<
+
+<body style="text-align: center">
+<canvas id="myChart"></canvas>
+
+</body>
+
+<script>
+    myChart.style.display = 'none';
+    chart1Btn.addEventListener('click', function() {
+        // 显示myChart，隐藏其他元素
+        myChart.style.display = 'block';
+    });
+
+
+
+    $.ajax({
+        url:"http://localhost:9090/api/data",
+        type:"GET",
+        dataType:"json",
+        headers: {
+            "Accept": "application/json"
+        },
+        success:function (Data){
+            console.log(Data);
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+
+                type: 'bar',
+                data: {
+                    labels: [Data.apiList[0],Data.apiList[1],Data.apiList[2],Data.apiList[3],Data.apiList[4]],
+                    datasets: [{
+                        label: "counts",
+                        data: [Data.apiListCount[0],Data.apiListCount[1],Data.apiListCount[2],Data.apiListCount[3],Data.apiListCount[4]],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                }
+            });
+
+
+
+
+        }
+
+    })
+
+
+
+</script>
+
+</html>
